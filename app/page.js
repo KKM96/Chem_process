@@ -1,95 +1,74 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+import { connectDB } from "@/util/database"
+import { MongoClient } from "mongodb"
+import { 
+  ArrowPathIcon,
+  FingerPrintIcon, 
+  LockClosedIcon, 
+  ArrowLeftOnRectangleIcon,
+  Bars3Icon,
+  XMarkIcon,
+  CloudArrowUpIcon,
+  SparklesIcon,
+  ArrowRightOnRectangleIcon,
+  CircleStackIcon,
+  PresentationChartLineIcon,
+  CommandLineIcon,
+} from '@heroicons/react/24/outline'
 
-export default function Home() {
+const features = [
+  {
+    name: 'View the process model',
+    description:
+      'You can view each process of the chemical process model.',
+    icon: PresentationChartLineIcon,
+  },
+  {
+    name: 'Calculate the process model',
+    description:
+      'You can calculate by changing inputs and conditions in the chemical process model.',
+    icon: CommandLineIcon,
+  },
+  {
+    name: 'Simulate the structure model(demo)',
+    description:
+      'You can simulate the structure model.',
+    icon: CommandLineIcon,
+  },
+]
+export default async function Home() {
+  const db = (await connectDB).db("chem")
+  let result = await db.collection('process').find().toArray()
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="bg-indigo-200 py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 my-8">
+        <div className="mx-auto max-w-2xl lg:text-center my-9" >
+          <h2 className="text-base font-semibold leading-7 text-indigo-600">
+            Chem-Process
+          </h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            Everything about Chemical Process
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            The process that gains the hydrogen from low-grade coal
+          </p>
+        </div>
+        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+            {features.map((feature) => (
+              <div key={feature.name} className="relative pl-16">
+                <dt className="text-base font-semibold leading-7 text-gray-900">
+                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
+                    <feature.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                  </div>
+                  {feature.name}
+                </dt>
+                <dd className="mt-2 text-base leading-7 text-gray-600">{feature.description}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   )
 }

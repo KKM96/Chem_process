@@ -9,6 +9,7 @@ Next.js 기반 공정 설명 및 계산, 모형 시각화 토이 프로젝트
 - Framer-motion
 - tailwindcss
 - three.js
+- vercel
 
 ## 프로젝트 소개
  프로젝트 기능
